@@ -1,0 +1,266 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* ARTISHINE Digital Terracotta Design System
+All colors MUST be HSL for proper theme support.
+Warm, earthy, authentic, premium aesthetic.
+*/
+
+@layer base {
+  :root {
+    /* Digital Terracotta Core Colors */
+    --background: 220 40% 16%; /* Creamy off-white */
+    --foreground: 0 0% 17%; /* Dark charcoal */
+
+    --card: 35 25% 96%; /* Slightly warmer white for cards */
+    --card-foreground: 0 0% 17%;
+
+    --popover: 35 25% 96%;
+    --popover-foreground: 0 0% 17%;
+
+    /* Brand Colors - Terracotta Primary */
+    --primary: 22 77% 51%; /* Rich Terracotta Orange */
+    --primary-foreground: 225 20% 98%;
+    --primary-glow: 22 77% 65%; /* Lighter terracotta for highlights */
+
+    /* Wood Brown Secondary */
+    --secondary: 20 25% 25%; /* Deep Wood Brown */
+    --secondary-foreground: 35 20% 98%;
+
+    /* Muted earth tones */
+    --muted: 30 15% 88%; /* Soft beige */
+    --muted-foreground: 20 15% 40%;
+    --background: 220 45% 16%; /* Deep dark blue */
+    /* Accent - Muted gold */
+    --accent: 45 65% 55%; /* Warm gold accent */
+    --accent-foreground: 0 0% 17%;
+
+    --destructive: 0 65% 55%;
+    --destructive-foreground: 35 20% 98%;
+
+    --border: 30 20% 85%; /* Warm border color */
+    --input: 30 20% 90%; /* Slightly darker input background */
+    --ring: 22 77% 51%; /* Focus ring matches primary */
+
+    --radius: 0.75rem; /* Slightly more rounded for premium feel */
+
+    /* Custom Design Tokens */
+    --terracotta: 22 77% 51%;
+    --terracotta-light: 22 77% 65%;
+    --terracotta-dark: 22 77% 35%;
+    --wood-brown: 20 25% 25%;
+    --wood-brown-light: 20 25% 35%;
+    --cream: 35 20% 98%;
+    --charcoal: 0 0% 17%;
+    --warm-gold: 45 65% 55%;
+
+    /* Gradients */
+    --gradient-terracotta: linear-gradient(135deg, hsl(var(--terracotta)), hsl(var(--terracotta-light)));
+    --gradient-warm: linear-gradient(135deg, hsl(var(--cream)), hsl(var(--muted)));
+    --gradient-earth: linear-gradient(135deg, hsl(var(--wood-brown)), hsl(var(--terracotta-dark)));
+
+    /* Shadows with warm tones */
+    --shadow-warm: 0 4px 20px -4px hsl(var(--terracotta) / 0.15);
+    --shadow-elegant: 0 8px 30px -8px hsl(var(--wood-brown) / 0.2);
+    --shadow-glow: 0 0 40px hsl(var(--terracotta-light) / 0.3);
+
+    /* Smooth transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-spring: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Dark mode with warmer tones */
+    --background: 20 15% 8%; /* Warm dark background */
+    --foreground: 35 20% 90%;
+
+    --card: 20 15% 10%;
+    --card-foreground: 35 20% 90%;
+
+    --popover: 20 15% 10%;
+    --popover-foreground: 35 20% 90%;
+
+    --primary: 22 77% 60%; /* Slightly brighter terracotta in dark mode */
+    --primary-foreground: 20 15% 8%;
+
+    --secondary: 20 25% 15%;
+    --secondary-foreground: 35 20% 90%;
+
+    --muted: 20 15% 12%;
+    --muted-foreground: 30 15% 65%;
+
+    --accent: 45 65% 65%; /* Brighter gold in dark mode */
+    --accent-foreground: 20 15% 8%;
+    @apply bg-background text-foreground font-sans;
+    --destructive: 0 65% 65%;
+    background-color: hsl(var(--background));
+    background-image: none;
+    background-attachment: fixed;
+    --ring: 22 77% 60%;
+
+    /* Update custom tokens for dark mode */
+    --terracotta: 22 77% 60%;
+    --terracotta-light: 22 77% 70%;
+    --wood-brown: 20 25% 15%;
+    --cream: 20 15% 8%;
+    --charcoal: 35 20% 90%;
+
+    --sidebar-background: 20 15% 8%;
+    --sidebar-foreground: 35 20% 90%;
+    --sidebar-primary: 22 77% 60%;
+    --sidebar-primary-foreground: 20 15% 8%;
+    --sidebar-accent: 20 15% 12%;
+    --sidebar-accent-foreground: 35 20% 90%;
+    --sidebar-border: 20 15% 20%;
+    --sidebar-ring: 22 77% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply text-foreground font-sans;
+    font-family: 'Lato', sans-serif;
+    background-color: #101a3c !important;
+    background-image: none !important;
+    background-attachment: fixed;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Merriweather', serif;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Custom scrollbar for card content */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+    border-radius: 2px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: hsl(var(--terracotta));
+    border-radius: 2px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--terracotta-dark));
+  }
+}
+
+@layer components {
+  /* Button variants using design system */
+  .btn-terracotta {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 shadow-warm transition-all duration-300 rounded-xl font-medium;
+  }
+
+  .btn-wood {
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/90 transition-all duration-300 rounded-xl font-medium;
+  }
+
+  .btn-outline-terracotta {
+    @apply border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 rounded-xl font-medium;
+  }
+
+  /* Card styles */
+  .card-warm {
+    @apply bg-card border border-border rounded-xl shadow-elegant transition-all duration-300;
+  }
+
+  .card-hover {
+    @apply hover:shadow-warm hover:-translate-y-1;
+  }
+
+  /* Gradient backgrounds */
+  .bg-gradient-terracotta {
+    background: var(--gradient-terracotta);
+  }
+
+  .bg-gradient-warm {
+    background: var(--gradient-warm);
+  }
+
+  .bg-gradient-earth {
+    background: var(--gradient-earth);
+  }
+
+  /* Text glow effect */
+  .text-glow {
+    text-shadow: 0 0 20px hsl(var(--terracotta) / 0.5);
+  }
+
+  /* Smooth hover transitions */
+  .hover-lift {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-warm;
+  }
+
+  .hover-scale {
+    @apply transition-transform duration-300 hover:scale-105;
+  }
+
+  /* Image overlay gradients */
+  .image-overlay {
+    background: linear-gradient(180deg, transparent 40%, hsl(var(--charcoal) / 0.8) 100%);
+  }
+
+  .image-overlay-subtle {
+    background: linear-gradient(180deg, transparent 60%, hsl(var(--charcoal) / 0.3) 100%);
+  }
+}
+
+@layer utilities {
+  /* Custom shadow utilities using CSS variables */
+  .shadow-warm {
+    box-shadow: var(--shadow-warm);
+  }
+
+  .shadow-elegant {
+    box-shadow: var(--shadow-elegant);
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  /* Loading bar animation utility used on generation step */
+  @keyframes loading-bar {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  .animate-loading-bar {
+    animation: loading-bar 1.2s linear infinite;
+  }
+}
