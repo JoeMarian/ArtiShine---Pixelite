@@ -18,11 +18,11 @@ const OrdersDashboardPage = () => {
   const handleStatusUpdate = (orderId, newStatus) => setOrders((prev) => prev.map((o) => (o.id === orderId ? { ...o, status: newStatus } : o)));
 
   return (
-    <div className="min-h-screen  pb-20">
+    <div className="min-h-screen  pb-20 pt-20">
       <div className="p-6">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-serif font-bold mb-2">Orders Dashboard</h1>
+            <h1 className="text-3xl font-serif font-bold mb-2 text-white">Orders Dashboard</h1>
             <p className="text-muted-foreground">Manage your incoming orders</p>
           </div>
 

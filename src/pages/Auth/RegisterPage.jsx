@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
-  const { loginEmail, loginGoogle, loading } = useAuth();
+  const { registerEmail, loading } = useAuth();
   const [selectedRole, setSelectedRole] = useState('buyer');
   const navigate = useNavigate();
 
@@ -24,20 +25,15 @@ const LoginPage = () => {
     e.preventDefault();
     setError('');
     
-    try {
-      await loginEmail(email, password, selectedRole);
-      // Navigation after successful login will be handled by the AuthContext
-    } catch (err) {
-      setError(err.message || 'Failed to sign in. Please try again.');
+    if (password !== confirmPassword) {
+      return setError('Passwords do not match');
     }
-  };
-
-  const handleGoogleLogin = async () => {
+    
     try {
-      await loginGoogle(selectedRole);
-      // Navigation after successful login will be handled by the AuthContext
+      await registerEmail(email, password, selectedRole);
+      // Navigation after successful registration will be handled by the AuthContext
     } catch (err) {
-      setError(err.message || 'Failed to sign in with Google.');
+      setError(err.message);
     }
   };
 
@@ -65,7 +61,7 @@ const LoginPage = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
               >
-                Welcome Back
+                Join Artishine
               </motion.h1>
               <motion.p 
                 className="text-amber-700"
@@ -73,7 +69,7 @@ const LoginPage = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
               >
-                Sign in to your account
+                Create your account to get started
               </motion.p>
             </div>
 
@@ -117,6 +113,23 @@ const LoginPage = () => {
                 />
               </div>
 
+              <div>
+                <label htmlFor="confirmPassword" className="block text-sm font-medium text-amber-800 mb-1">
+                  Confirm Password
+                </label>
+                <input
+                  id="confirmPassword"
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className="w-full px-4 py-2 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all bg-white/50 backdrop-blur-sm text-amber-900 placeholder-amber-400"
+                  placeholder="••••••••"
+                  required
+                  minLength={6}
+                  data-cursor="text"
+                />
+              </div>
+
               <div className="flex items-center space-x-3">
                 <label className="text-sm font-medium text-amber-800">I am a</label>
                 <select
@@ -139,7 +152,7 @@ const LoginPage = () => {
                   }`}
                   data-cursor="pointer"
                 >
-                  {loading ? 'Signing In...' : 'Sign In'}
+                  {loading ? 'Creating Account...' : 'Create Account'}
                 </button>
               </div>
             </form>
@@ -150,33 +163,17 @@ const LoginPage = () => {
                   <div className="w-full border-t border-amber-200"></div>
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-white text-amber-700">Or continue with</span>
+                  <span className="px-2 bg-white text-amber-700">Already have an account?</span>
                 </div>
               </div>
 
-              <div className="mt-6 grid grid-cols-1 gap-3">
+              <div className="mt-6">
                 <button
-                  type="button"
-                  onClick={handleGoogleLogin}
-                  disabled={loading}
+                  onClick={() => navigate('/login')}
                   className="w-full flex justify-center py-2 px-4 border border-amber-200 rounded-lg shadow-sm bg-white text-sm font-medium text-amber-700 hover:bg-amber-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 cursor-none"
                   data-cursor="pointer"
                 >
-                  <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z" />
-                  </svg>
-                  Continue with Google
-                </button>
-              </div>
-
-              <div className="mt-6 text-center text-sm">
-                <span className="text-amber-700">Don't have an account? </span>
-                <button
-                  onClick={() => navigate('/register')}
-                  className="font-medium text-amber-800 hover:text-amber-900 cursor-none"
-                  data-cursor="pointer"
-                >
-                  Sign up
+                  Sign In
                 </button>
               </div>
             </div>
@@ -187,4 +184,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

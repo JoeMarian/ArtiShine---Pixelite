@@ -27,11 +27,11 @@ const ProfilePageArtisan = () => {
   };
 
   return (
-    <div className="min-h-screen  pb-20 md:pb-6">
+    <div className="min-h-screen  pb-20 md:pb-6 pt-20">
       <div className="p-6">
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-serif font-bold mb-2">My Artisan Profile</h1>
+            <h1 className="text-3xl font-serif font-bold mb-2 text-white">My Artisan Profile</h1>
             <p className="text-muted-foreground">Manage your artisan identity and shop details</p>
           </div>
 
