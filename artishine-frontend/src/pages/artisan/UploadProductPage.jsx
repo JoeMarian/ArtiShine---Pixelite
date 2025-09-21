@@ -45,11 +45,11 @@ const UploadProductPage = () => {
   };
 
   return (
-    <div className="min-h-screen  pb-20  pt-20">
+    <div className="min-h-screen  pb-20">
       <div className="p-6">
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-serif font-bold mb-2 text-white">Share Your Craft</h1>
+            <h1 className="text-3xl font-serif font-bold mb-2">Share Your Craft</h1>
             <p className="text-muted-foreground">Let AI help tell your story</p>
           </div>
 
@@ -67,7 +67,7 @@ const UploadProductPage = () => {
           {step === 1 && (
             <div className="space-y-6">
               <div className="text-center mb-6">
-                <h2 className="text-2xl font-serif font-bold mb-2 text-white">Step 1: Add Photos</h2>
+                <h2 className="text-2xl font-serif font-bold mb-2">Step 1: Add Photos</h2>
                 <p className="text-muted-foreground">Show us your beautiful creation</p>
               </div>
               <ImageUploader onImageSelect={handleImageSelect} preview={selectedImage} />

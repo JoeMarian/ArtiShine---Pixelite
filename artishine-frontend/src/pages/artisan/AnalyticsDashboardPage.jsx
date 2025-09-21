@@ -7,11 +7,11 @@ import { Eye, Heart, Instagram, MessageCircle, ThumbsUp, TrendingUp } from 'luci
 const AnalyticsDashboardPage = () => {
   const analytics = sampleData.analytics;
   return (
-    <div className="min-h-screen pb-20 pt-20">
+    <div className="min-h-screen pb-20">
       <div className="p-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-serif font-bold mb-2 text-white">Analytics Dashboard</h1>
+            <h1 className="text-3xl font-serif font-bold mb-2">Analytics Dashboard</h1>
             <p className="text-muted-foreground">Track your business performance</p>
           </div>
 

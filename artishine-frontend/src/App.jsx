@@ -6,15 +6,12 @@ import BackgroundScribbles from './components/BackgroundScribbles';
 import BackgroundLottie from './components/BackgroundLottie';
 import { useAuth } from './context/AuthContext';
 import EpicGradientBackground from './components/EpicGradientBackground';
-import CustomCursor from './components/CustomCursor';
 
 // Pages
 import LoginPage from './pages/Auth/LoginPage';
-import RegisterPage from './pages/Auth/RegisterPage';
-import HomePage from './pages/HomePage';
 import UploadProductPage from './pages/artisan/UploadProductPage';
 import ManageProductsPage from './pages/artisan/ManageProductsPage';
-import OrdersDashboardPage from '/Users/joemarian/Desktop/Artishine-frontend/src/pages/artisan/OrdersDashboardPage.jsx';
+import OrdersDashboardPage from './pages/buyer/OrdersDashboardPage';
 import AnalyticsDashboardPage from './pages/artisan/AnalyticsDashboardPage';
 import MapPage from './pages/buyer/MapPage';
 import ExplorePage from './pages/buyer/ExplorePage';
@@ -23,35 +20,23 @@ import ProfilePageBuyer from './pages/buyer/ProfilePageBuyer';
 import ProfilePageArtisan from './pages/artisan/ProfilePageArtisan';
 
 const AppShell = () => {
-  const { currentUser, role } = useAuth();
-  
-  // Only redirect if explicitly logged in
-  const shouldRedirect = (path) => {
-    if (path === '/login' || path === '/register') {
-      return currentUser ? <Navigate to={role === 'artisan' ? '/upload' : '/explore'} /> : null;
-    }
-    return null;
-  };
-
+  const { currentUser } = useAuth();
   return (
     <>
-      <CustomCursor />
-      {currentUser ? <EpicGradientBackground /> : <BackgroundScribbles />}
-      
+  {/* Show epic gradient background for logged-in users */}
+  {currentUser ? <EpicGradientBackground /> : null}
+  {/* Optionally layer scribbles for unauthenticated users */}
+  {!currentUser ? <BackgroundScribbles /> : null}
       <BrowserRouter>
         <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={<HomePage />} />
-          
-          {/* Login and Register routes without automatic redirects */}
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/" element={<Navigate to="/explore" />} />
 
           {/* Artisan Routes */}
           <Route
             path="/upload"
             element={
-              <ProtectedRoute requiredRole="artisan">
+              <ProtectedRoute>
                 <UploadProductPage />
               </ProtectedRoute>
             }
@@ -59,7 +44,7 @@ const AppShell = () => {
           <Route
             path="/manage-products"
             element={
-              <ProtectedRoute requiredRole="artisan">
+              <ProtectedRoute>
                 <ManageProductsPage />
               </ProtectedRoute>
             }
@@ -67,7 +52,7 @@ const AppShell = () => {
           <Route
             path="/orders"
             element={
-              <ProtectedRoute requiredRole="artisan">
+              <ProtectedRoute>
                 <OrdersDashboardPage />
               </ProtectedRoute>
             }
@@ -75,7 +60,7 @@ const AppShell = () => {
           <Route
             path="/analytics"
             element={
-              <ProtectedRoute requiredRole="artisan">
+              <ProtectedRoute>
                 <AnalyticsDashboardPage />
               </ProtectedRoute>
             }
@@ -85,7 +70,7 @@ const AppShell = () => {
           <Route
             path="/map"
             element={
-              <ProtectedRoute requiredRole="buyer">
+              <ProtectedRoute>
                 <MapPage />
               </ProtectedRoute>
             }
@@ -93,7 +78,7 @@ const AppShell = () => {
           <Route
             path="/explore"
             element={
-              <ProtectedRoute requiredRole="buyer">
+              <ProtectedRoute>
                 <ExplorePage />
               </ProtectedRoute>
             }
@@ -101,7 +86,7 @@ const AppShell = () => {
           <Route
             path="/cart"
             element={
-              <ProtectedRoute requiredRole="buyer">
+              <ProtectedRoute>
                 <CartPage />
               </ProtectedRoute>
             }
@@ -117,16 +102,13 @@ const AppShell = () => {
             }
           />
           <Route
-            path="/artisan/profile"
+            path="/profile-artisan"
             element={
-              <ProtectedRoute requiredRole="artisan">
+              <ProtectedRoute>
                 <ProfilePageArtisan />
               </ProtectedRoute>
             }
           />
-
-          {/* Catch all other routes */}
-          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </BrowserRouter>
     </>
