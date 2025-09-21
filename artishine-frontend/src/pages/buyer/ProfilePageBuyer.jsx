@@ -12,11 +12,11 @@ const ProfilePageBuyer = () => {
   });
 
   return (
-    <div className="min-h-screen  pb-20 pt-20">
+    <div className="min-h-screen  pb-20">
       <div className="p-6">
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8">
-            <h1 className="text-3xl text-white font-serif font-bold mb-2">My Profile</h1>
+            <h1 className="text-3xl font-serif font-bold mb-2">My Profile</h1>
             <p className="text-muted-foreground">Manage your account information</p>
           </div>
           <div className="space-y-6">

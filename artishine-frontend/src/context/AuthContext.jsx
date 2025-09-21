@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { auth, googleProvider } from '../lib/firebase';
 import {
   onAuthStateChanged,
@@ -9,7 +9,16 @@ import {
   signOut,
 } from 'firebase/auth';
 
-const AuthContext = createContext();
+const AuthContext = createContext({
+  currentUser: null,
+  role: null,
+  loginEmail: async () => {},
+  registerEmail: async () => {},
+  loginGoogle: async () => {},
+  logout: () => {},
+  setRole: () => {},
+  loading: false,
+});
 
 export const useAuth = () => useContext(AuthContext);
 
@@ -17,88 +26,48 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [role, setRole] = useState(() => localStorage.getItem('role'));
   const [loading, setLoading] = useState(true);
-  // CHANGED: Added state for the ID token, initialized from localStorage
-  const [idToken, setIdToken] = useState(() => localStorage.getItem('idToken'));
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    const unsub = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
-      if (user) {
-        // CHANGED: Get token, set it in state, and save to localStorage
-        const token = await user.getIdToken();
-        setIdToken(token);
-        localStorage.setItem('idToken', token);
-        localStorage.setItem('userId', user.uid);
-      } else {
-        // CHANGED: Clear token from state and localStorage on logout
-        setIdToken(null);
-        localStorage.removeItem('idToken');
-        localStorage.removeItem('userId');
-        localStorage.removeItem('role'); // Also clear role on logout
-      }
+      if (user) localStorage.setItem('userId', user.uid);
       setLoading(false);
     });
-    return () => unsubscribe();
+    return () => unsub();
   }, []);
 
   useEffect(() => {
-    if (role) {
-      localStorage.setItem('role', role);
-    }
+    if (role) localStorage.setItem('role', role);
   }, [role]);
 
   const loginEmail = async (email, password) => {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    const token = await userCredential.user.getIdToken();
-    // CHANGED: Set token in state and localStorage after login
-    setIdToken(token);
-    localStorage.setItem('idToken', token);
-    console.log("Firebase ID Token for testing:", token);
+    await signInWithEmailAndPassword(auth, email, password);
   };
 
   const registerEmail = async (email, password) => {
-    // Note: You still need to call your backend here to create the user in Firestore
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const token = await userCredential.user.getIdToken();
-     // CHANGED: Set token in state and localStorage after registration
-    setIdToken(token);
-    localStorage.setItem('idToken', token);
+    await createUserWithEmailAndPassword(auth, email, password);
   };
 
   const loginGoogle = async () => {
-    const result = await signInWithPopup(auth, googleProvider);
-    const token = await result.user.getIdToken();
-    // CHANGED: Set token in state and localStorage after Google login
-    setIdToken(token);
-    localStorage.setItem('idToken', token);
-    console.log("Firebase ID Token for testing:", token);
+    await signInWithPopup(auth, googleProvider);
   };
 
   const logout = async () => {
     await signOut(auth);
-    // Note: The onAuthStateChanged listener will handle clearing state and localStorage
+    setCurrentUser(null);
+    localStorage.removeItem('userId');
   };
 
-  const value = {
-    currentUser,
-    idToken, // CHANGED: Expose the token through the context
-    role,
-    setRole,
-    loginEmail,
-    registerEmail,
-    loginGoogle,
-    logout,
-    loading,
-  };
-
-  return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ currentUser, role, setRole, loginEmail, registerEmail, loginGoogle, logout, loading }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export const ProtectedRoute = ({ children }) => {
-  const { currentUser, loading } = useAuth();
-  if (loading) {
-    // You can return a loading spinner here
-    return <div>Loading...</div>;
-  }
+  const { currentUser } = useAuth();
   return currentUser ? <>{children}</> : <Navigate to="/login" />;
 };
+
+

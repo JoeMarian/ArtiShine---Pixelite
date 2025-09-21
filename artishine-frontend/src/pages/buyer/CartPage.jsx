@@ -10,11 +10,11 @@ const CartPage = () => {
   const total = cartItems.reduce((sum, item) => sum + item.price, 0);
 
   return (
-    <div className="min-h-screen  pb-20 pt-20">
+    <div className="min-h-screen  pb-20">
       <div className="p-6">
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8">
-            <h1 className="text-3xl text-white font-serif font-bold mb-2">Your Cart</h1>
+            <h1 className="text-3xl font-serif font-bold mb-2">Your Cart</h1>
             <p className="text-muted-foreground">{cartItems.length} item{cartItems.length !== 1 ? 's' : ''} selected</p>
           </div>
 
