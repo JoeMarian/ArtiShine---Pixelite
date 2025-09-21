@@ -7,6 +7,8 @@ import BackgroundLottie from './components/BackgroundLottie';
 import { useAuth } from './context/AuthContext';
 import EpicGradientBackground from './components/EpicGradientBackground';
 import CustomCursor from './components/CustomCursor';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Pages
 import LoginPage from './pages/Auth/LoginPage';
@@ -14,7 +16,7 @@ import RegisterPage from './pages/Auth/RegisterPage';
 import HomePage from './pages/HomePage';
 import UploadProductPage from './pages/artisan/UploadProductPage';
 import ManageProductsPage from './pages/artisan/ManageProductsPage';
-import OrdersDashboardPage from '/Users/joemarian/Desktop/Artishine-frontend/src/pages/artisan/OrdersDashboardPage.jsx';
+import OrdersDashboardPage from './pages/artisan/OrdersDashboardPage';
 import AnalyticsDashboardPage from './pages/artisan/AnalyticsDashboardPage';
 import MapPage from './pages/buyer/MapPage';
 import ExplorePage from './pages/buyer/ExplorePage';
@@ -37,7 +39,6 @@ const AppShell = () => {
     <>
       <CustomCursor />
       {currentUser ? <EpicGradientBackground /> : <BackgroundScribbles />}
-      
       <BrowserRouter>
         <Routes>
           {/* Public Routes */}
@@ -77,6 +78,14 @@ const AppShell = () => {
             element={
               <ProtectedRoute requiredRole="artisan">
                 <AnalyticsDashboardPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile-artisan"
+            element={
+              <ProtectedRoute requiredRole="artisan">
+                <ProfilePageArtisan />
               </ProtectedRoute>
             }
           />

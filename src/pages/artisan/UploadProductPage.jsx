@@ -4,22 +4,28 @@ import ImageUploader from '../../components/ImageUploader';
 import AudioRecorder from '../../components/AudioRecorder';
 import PrimaryButton from '../../components/PrimaryButton';
 import Navigation from '../../components/Navigation';
+import { toast, ToastContainer } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const UploadProductPage = () => {
   const [step, setStep] = useState(1);
   const [isRecording, setIsRecording] = useState(false);
   const [recordingDuration, setRecordingDuration] = useState(0);
   const [isGenerating, setIsGenerating] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImages, setSelectedImages] = useState([]);
+  const [imageFiles, setImageFiles] = useState([]);
+  const [audioFile, setAudioFile] = useState(null);
   const [generatedContent, setGeneratedContent] = useState({ title: '', tagline: '', story: '' });
   const [postToInstagram, setPostToInstagram] = useState(false);
+  const navigate = useNavigate();
 
-  const handleImageSelect = (file) => {
-    const url = URL.createObjectURL(file);
-    setSelectedImage(url);
-    setStep(2);
+  const handleImageSelect = (files) => {
+    setImageFiles(files);
+    const urls = files.map((file) => URL.createObjectURL(file));
+    setSelectedImages(urls);
   };
 
+  // This will be replaced by actual recording logic
   const handleStartRecording = () => {
     setIsRecording(true);
     setRecordingDuration(0);
@@ -28,6 +34,8 @@ const UploadProductPage = () => {
       setIsRecording(false);
       clearInterval(timer);
       setStep(3);
+      // Simulate audio file for now
+      setAudioFile(new Blob([], { type: 'audio/wav' }));
     }, 5000);
   };
 
@@ -46,6 +54,7 @@ const UploadProductPage = () => {
 
   return (
     <div className="min-h-screen  pb-20  pt-20">
+      <ToastContainer/>
       <div className="p-6">
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8">
@@ -70,24 +79,39 @@ const UploadProductPage = () => {
                 <h2 className="text-2xl font-serif font-bold mb-2 text-white">Step 1: Add Photos</h2>
                 <p className="text-muted-foreground">Show us your beautiful creation</p>
               </div>
-              <ImageUploader onImageSelect={handleImageSelect} preview={selectedImage} />
+              <ImageUploader onImageSelect={handleImageSelect} previews={selectedImages} />
+              {selectedImages.length > 0 && (
+                <PrimaryButton
+                  className="mt-6 w-full"
+                  size="lg"
+                  onClick={() => setStep(2)}
+                >
+                  Next
+                </PrimaryButton>
+              )}
             </div>
           )}
 
           {step === 2 && (
             <div className="space-y-6">
               <div className="text-center mb-6">
-                <h2 className="text-2xl font-serif font-bold mb-2">Step 2: Record Your Story</h2>
+                <h2 className="text-2xl text-white font-serif font-bold mb-2">Step 2: Record Your Story</h2>
                 <p className="text-muted-foreground">Tell us about your craft in your own words</p>
               </div>
-              <AudioRecorder isRecording={isRecording} duration={recordingDuration} onStartRecording={handleStartRecording} onStopRecording={() => setIsRecording(false)} />
+              <AudioRecorder
+                isRecording={isRecording}
+                duration={recordingDuration}
+                onStartRecording={handleStartRecording}
+                onStopRecording={() => setIsRecording(false)}
+                onAudioSave={(file) => setAudioFile(file)}
+              />
             </div>
           )}
 
           {step === 3 && (
             <div className="space-y-6">
               <div className="text-center mb-6">
-                <h2 className="text-2xl font-serif font-bold mb-2">Step 3: Craft Your Story</h2>
+                <h2 className="text-2xl text-white font-serif font-bold mb-2">Step 3: Craft Your Story</h2>
                 <p className="text-muted-foreground">Let our AI weave the magic of your story</p>
               </div>
               <div className="card-warm p-8 text-center">
@@ -117,27 +141,27 @@ const UploadProductPage = () => {
           {step === 4 && (
             <div className="space-y-6">
               <div className="text-center mb-6">
-                <h2 className="text-2xl font-serif font-bold mb-2">Step 4: Review & Publish</h2>
+                <h2 className="text-2xl text-white font-serif font-bold mb-2">Step 4: Review & Publish</h2>
                 <p className="text-muted-foreground">Fine-tune your story and publish</p>
               </div>
               <div className="space-y-6">
                 <div>
-                  <label className="block text-sm font-medium mb-2">Title</label>
+                  <label className="block text-sm text-white font-medium mb-2">Title</label>
                   <input type="text" value={generatedContent.title} onChange={(e) => setGeneratedContent((prev) => ({ ...prev, title: e.target.value }))} className="w-full px-4 py-3 rounded-lg border border-border  focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2">Tagline</label>
+                  <label className="block text-sm text-white font-medium mb-2">Tagline</label>
                   <input type="text" value={generatedContent.tagline} onChange={(e) => setGeneratedContent((prev) => ({ ...prev, tagline: e.target.value }))} className="w-full px-4 py-3 rounded-lg border border-border  focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2">Story</label>
+                  <label className="block text-sm text-white font-medium mb-2">Story</label>
                   <textarea value={generatedContent.story} onChange={(e) => setGeneratedContent((prev) => ({ ...prev, story: e.target.value }))} rows={6} className="w-full px-4 py-3 rounded-lg border border-border  focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300 resize-none" />
                 </div>
                 <div className="flex items-center justify-between p-4 border border-border rounded-lg">
                   <div className="flex items-center space-x-3">
                     <Instagram className="h-6 w-6 text-pink-500" />
                     <div>
-                      <p className="font-medium">Auto-post to Instagram</p>
+                      <p className="font-medium text-white">Auto-post to Instagram</p>
                       <p className="text-sm text-muted-foreground">Share with your followers</p>
                     </div>
                   </div>
@@ -145,7 +169,32 @@ const UploadProductPage = () => {
                     <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-transform duration-300 ${postToInstagram ? 'translate-x-7' : 'translate-x-1'}`} />
                   </button>
                 </div>
-                <PrimaryButton onClick={() => alert('Product published successfully!')} size="lg" className="w-full">
+                <PrimaryButton
+                  onClick={async () => {
+                    // Prepare form data
+                    const formData = new FormData();
+                    formData.append('title', generatedContent.title);
+                    formData.append('tagline', generatedContent.tagline);
+                    formData.append('story', generatedContent.story);
+                    imageFiles.forEach((file, idx) => {
+                      formData.append('images', file);
+                    });
+                    formData.append('audio', audioFile);
+                    formData.append('postToInstagram', postToInstagram);
+                    // TODO: Add userId/role if needed
+                    // Send POST request
+                    await fetch('/api/products', {
+                      method: 'POST',
+                      body: formData,
+                    });
+                    toast.success("Product published successfully!");
+                    setTimeout(() => {
+                      navigate("/manage-products")
+                    }, 2000);
+                  }}
+                  size="lg"
+                  className="w-full"
+                >
                   Publish Product
                 </PrimaryButton>
               </div>

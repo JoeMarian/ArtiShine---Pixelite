@@ -28,11 +28,11 @@ const ExplorePage = () => {
   };
 
   return (
-    <div className="min-h-screen pb-20">
+    <div className="min-h-screen pb-20 pt-20">
       <div className="p-6">
         <div className="max-w-md mx-auto">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-serif font-bold mb-2">Discover Crafts</h1>
+            <h1 className="text-3xl text-white font-serif font-bold mb-2">Discover Crafts</h1>
             <p className="text-muted-foreground">Swipe right to add to cart, left to skip</p>
           </div>
           <div className="relative h-[85vh] mb-6">

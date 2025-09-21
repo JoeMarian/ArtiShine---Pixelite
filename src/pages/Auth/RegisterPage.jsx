@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const RegisterPage = () => {
   const [email, setEmail] = useState('');
@@ -31,7 +33,18 @@ const RegisterPage = () => {
     
     try {
       await registerEmail(email, password, selectedRole);
-      // Navigation after successful registration will be handled by the AuthContext
+      toast.success('Registered successfully! Please login.', {
+        position: 'top-center',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+      });
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
     } catch (err) {
       setError(err.message);
     }
@@ -166,7 +179,6 @@ const RegisterPage = () => {
                   <span className="px-2 bg-white text-amber-700">Already have an account?</span>
                 </div>
               </div>
-
               <div className="mt-6">
                 <button
                   onClick={() => navigate('/login')}
@@ -177,6 +189,7 @@ const RegisterPage = () => {
                 </button>
               </div>
             </div>
+            <ToastContainer />
           </div>
         </motion.div>
       </div>
