@@ -57,7 +57,7 @@ const HomePage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            Discover Handcrafted Treasures from Artisans Worldwide
+            Discover Handcrafted Treasures from Artisans Near You
           </motion.h1>
           
           <motion.p 
@@ -109,7 +109,7 @@ const HomePage = () => {
               },
               {
                 icon: '🌍',
-                title: 'Global Artisans',
+                title: 'Local and Global Reach',
                 description: 'Discover unique crafts from artisans around the world, all in one place.'
               },
               {
