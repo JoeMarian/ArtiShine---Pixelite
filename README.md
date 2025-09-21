@@ -67,8 +67,17 @@ ArtiShine consists of **two major components**:
 
 - Python 3.10+  
 - Google Cloud project with Firestore & Cloud Storage  
-- OpenRouter API Key  
+- OpenRouter API Key
 
+---
+### 👥 Pixelite Team Members
+- Muhammad Farhaan
+- Joe Marian A
+- Mohamed Sheraz M
+- Mohamed Junaidh R
+- Ajmal Khan
+
+---
 ### 2️⃣ Clone the Repository
 
 ```bash
